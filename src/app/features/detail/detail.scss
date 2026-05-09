@@ -1,0 +1,65 @@
+.detail-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+.center { display: flex; justify-content: center; margin: 4rem 0; }
+.error-msg { color: red; text-align: center; font-size: 1rem; margin: 2rem 0; }
+
+/* Hero */
+.hero {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.poster {
+  width: 280px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+.no-poster {
+  width: 280px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  border-radius: 12px;
+  font-size: 5rem;
+  flex-shrink: 0;
+}
+.info { flex: 1; min-width: 280px; }
+.info h1 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
+.meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.genre { color: #666; margin-bottom: 1rem; font-style: italic; }
+.plot { line-height: 1.7; margin-bottom: 1.5rem; }
+.crew p { margin: 0.4rem 0; font-size: 0.95rem; }
+.crew { margin-bottom: 1.5rem; }
+
+/* Reviews */
+.reviews-section { margin-top: 2rem; }
+.reviews-section h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
+.review-form { margin-bottom: 2rem; }
+.review-form h3 { margin-bottom: 1rem; }
+.review-form mat-form-field { margin-right: 1rem; }
+.full-width { width: 100%; }
+.no-reviews { color: #999; text-align: center; margin: 2rem 0; }
+.review-card {
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+.reviewer { font-weight: 600; }
+.date { color: #999; font-size: 0.85rem; margin-left: auto; }
+.review-comment { color: #444; line-height: 1.6; margin: 0; }
