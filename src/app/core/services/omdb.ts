@@ -8,17 +8,12 @@ import { Observable } from 'rxjs';
 export class OmdbService {
   private http = inject(HttpClient);
 
-  // ── Signals état global ──────────────────────────────
+  // ── Signals ──────────────────────────────────────────
   movies = signal<MovieSummary[]>([]);
   totalResults = signal<number>(0);
   loading = signal<boolean>(false);
   error = signal<string | null>(null);
-
-  // Favoris (persistés dans localStorage)
-  favorites = signal<MovieSummary[]>(this.loadFavorites());
-
   totalPages = computed(() => Math.ceil(this.totalResults() / 10));
-  hasFavorites = computed(() => this.favorites().length > 0);
 
   // ── Recherche ────────────────────────────────────────
   searchMovies(filters: SearchFilters): void {
@@ -60,29 +55,5 @@ export class OmdbService {
       .set('plot', 'full');
 
     return this.http.get<MovieDetail>(environment.omdbBaseUrl, { params });
-  }
-
-  // ── Favoris ──────────────────────────────────────────
-  toggleFavorite(movie: MovieSummary): void {
-    const current = this.favorites();
-    const exists = current.find(f => f.imdbID === movie.imdbID);
-    const updated = exists
-      ? current.filter(f => f.imdbID !== movie.imdbID)
-      : [...current, movie];
-
-    this.favorites.set(updated);
-    localStorage.setItem('favorites', JSON.stringify(updated));
-  }
-
-  isFavorite(imdbID: string): boolean {
-    return this.favorites().some(f => f.imdbID === imdbID);
-  }
-
-  private loadFavorites(): MovieSummary[] {
-    try {
-      return JSON.parse(localStorage.getItem('favorites') || '[]');
-    } catch {
-      return [];
-    }
   }
 }

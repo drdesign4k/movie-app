@@ -1,0 +1,171 @@
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  padding: 20px;
+}
+
+/* CARD */
+mat-card {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 2rem;
+
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+
+  color: white;
+}
+
+/* TITLE */
+.auth-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+
+  font-size: 1.8rem;
+  font-weight: 600;
+
+  color: #fff;
+}
+
+/* FORM */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+/* INPUT COLORS (Material override) */
+::ng-deep .mat-mdc-form-field-input-control {
+  color: white !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+::ng-deep .mat-mdc-form-field-label {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* BUTTON */
+.auth-btn {
+  width: 100%;
+  margin-top: 1rem;
+  height: 48px;
+
+  font-size: 1rem;
+  font-weight: 500;
+
+  border-radius: 10px;
+}
+
+/* LINK */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-link a {
+  color: #8b5cf6;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* ERROR */
+.error-msg {
+  color: #ff4d4d;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* PASSWORD ICON */
+button[mat-icon-button] {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  padding: 20px;
+}
+
+/* 🌌 BACKGROUND CINÉ */
+.film-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 🎬 ICONES */
+.film-icon {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0.15;
+
+  animation: float 12s infinite ease-in-out;
+  user-select: none;
+}
+
+/* POSITIONS + VARIATIONS */
+.clapper { top: 10%; left: 15%; animation-duration: 14s; }
+.film { top: 25%; left: 70%; animation-duration: 18s; }
+.popcorn { top: 70%; left: 20%; animation-duration: 16s; }
+.ticket { top: 80%; left: 75%; animation-duration: 20s; }
+.star { top: 40%; left: 50%; animation-duration: 22s; }
+.play { top: 60%; left: 10%; animation-duration: 17s; }
+
+/* ✨ FLOAT ANIMATION */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* 🧊 CARD GLASS */
+mat-card {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 420px;
+
+  padding: 2rem;
+
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+
+  color: white;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}

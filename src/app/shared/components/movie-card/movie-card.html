@@ -1,1 +1,24 @@
-<p>movie-card works!</p>
+<mat-card (click)="goToDetail()">
+  @if (movie().Poster !== 'N/A') {
+    <img [src]="movie().Poster" [alt]="movie().Title" class="poster"/>
+  } @else {
+    <div class="no-poster">🎬</div>
+  }
+  <mat-card-content>
+    <p class="title">{{ movie().Title }}</p>
+    <p class="year">{{ movie().Year }}</p>
+    <mat-chip>{{ movie().Type }}</mat-chip>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-button color="primary" (click)="goToDetail(); $event.stopPropagation()">
+      <mat-icon>info</mat-icon> Détails
+    </button>
+    @if (authService.isLoggedIn()) {
+      <button mat-icon-button
+              [color]="favoritesService.isFavorite(movie().imdbID) ? 'warn' : ''"
+              (click)="toggleFav(); $event.stopPropagation()">
+        <mat-icon>{{ favoritesService.isFavorite(movie().imdbID) ? 'favorite' : 'favorite_border' }}</mat-icon>
+      </button>
+    }
+  </mat-card-actions>
+</mat-card>

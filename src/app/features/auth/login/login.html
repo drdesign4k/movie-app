@@ -1,1 +1,123 @@
-<p>login works!</p>
+<div class="auth-container">
+  <div class="film-bg">
+    <span class="film-icon clapper">🎬</span>
+    <span class="film-icon film">🎞️</span>
+    <span class="film-icon popcorn">🍿</span>
+    <span class="film-icon ticket">🎟️</span>
+    <span class="film-icon star">⭐</span>
+    <span class="film-icon play">▶️</span>
+  </div>
+  <mat-card class="auth-card">
+    <!-- HEADER -->
+    <div class="logo-section">
+      <div class="logo-circle">
+        <mat-icon>movie</mat-icon>
+      </div>
+
+      <h1 class="auth-title">Movie App</h1>
+
+      <p class="auth-subtitle">Connecte-toi pour découvrir les meilleurs films</p>
+    </div>
+
+    <!-- FORM -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="auth-form">
+      <!-- EMAIL -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Email</mat-label>
+
+        <input
+          matInput
+          type="email"
+          formControlName="email"
+          placeholder="ton@email.com"
+          autocomplete="email"
+          autofocus
+        />
+
+        <mat-icon matSuffix>mail</mat-icon>
+
+        @if (email.touched && email.hasError('required')) {
+          <mat-error> L'email est obligatoire </mat-error>
+        }
+
+        @if (email.touched && email.hasError('email')) {
+          <mat-error> Adresse email invalide </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- PASSWORD -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Mot de passe</mat-label>
+
+        <input
+          matInput
+          formControlName="password"
+          [type]="showPassword() ? 'text' : 'password'"
+          autocomplete="current-password"
+        />
+
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()">
+          <mat-icon>
+            {{ showPassword() ? 'visibility_off' : 'visibility' }}
+          </mat-icon>
+        </button>
+
+        @if (password.touched && password.hasError('required')) {
+          <mat-error> Le mot de passe est obligatoire </mat-error>
+        }
+
+        @if (password.touched && password.hasError('minlength')) {
+          <mat-error> Minimum 6 caractères </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- ERROR -->
+      @if (error()) {
+        <div class="error-box">
+          <mat-icon>error</mat-icon>
+
+          <span>
+            {{ error() }}
+          </span>
+        </div>
+      }
+
+      <!-- SUBMIT -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="auth-btn"
+        type="submit"
+        [disabled]="form.invalid || loading()"
+      >
+        @if (loading()) {
+          <mat-spinner diameter="22" strokeWidth="3"> </mat-spinner>
+        } @else {
+          <span>Se connecter</span>
+        }
+      </button>
+    </form>
+
+    <!-- DIVIDER -->
+    <div class="divider">
+      <span>OU</span>
+    </div>
+
+    <!-- GOOGLE -->
+    <button mat-stroked-button class="google-btn" type="button">
+      <img
+        src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
+        alt="Google"
+      />
+
+      <span>Continuer avec Google</span>
+    </button>
+
+    <!-- REGISTER -->
+    <p class="auth-link">
+      Pas encore de compte ?
+
+      <a routerLink="/register"> S'inscrire </a>
+    </p>
+  </mat-card>
+</div>

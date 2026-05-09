@@ -1,0 +1,21 @@
+.search-container { max-width: 1200px; margin: 2rem auto; padding: 0 1rem; }
+.search-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.search-input { flex: 1; min-width: 200px; }
+.filters { display: flex; gap: 1rem; flex-wrap: wrap; }
+.filter-select { width: 150px; }
+.movies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+.center { display: flex; justify-content: center; margin: 2rem 0; }
+.error-msg { color: red; text-align: center; margin: 2rem 0; font-size: 1rem; }
+.hero { text-align: center; padding: 4rem 1rem; color: #666; }
+.hero h2 { font-size: 2rem; margin-bottom: 1rem; }

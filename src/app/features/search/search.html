@@ -1,1 +1,62 @@
-<p>search works!</p>
+<div class="search-container">
+  <div class="search-bar">
+    <mat-form-field appearance="outline" class="search-input">
+      <mat-label>Rechercher un film, série...</mat-label>
+      <input matInput [(ngModel)]="query" (keyup.enter)="onSearch()" placeholder="Ex: Inception"/>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <div class="filters">
+      <mat-form-field appearance="outline" class="filter-select">
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="selectedType">
+          <mat-option value="">Tous</mat-option>
+          <mat-option value="movie">Films</mat-option>
+          <mat-option value="series">Séries</mat-option>
+          <mat-option value="episode">Épisodes</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="filter-select">
+        <mat-label>Année</mat-label>
+        <input matInput [(ngModel)]="selectedYear" placeholder="Ex: 2023" maxlength="4"/>
+      </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="primary" (click)="onSearch()">
+      <mat-icon>search</mat-icon> Rechercher
+    </button>
+  </div>
+
+  @if (omdbService.loading()) {
+    <div class="center">
+      <mat-spinner diameter="48"/>
+    </div>
+  }
+
+  @if (omdbService.error()) {
+    <p class="error-msg">{{ omdbService.error() }}</p>
+  }
+
+  @if (omdbService.movies().length > 0) {
+    <div class="movies-grid">
+      @for (movie of omdbService.movies(); track movie.imdbID) {
+        <app-movie-card [movie]="movie"/>
+      }
+    </div>
+    <mat-paginator
+      [length]="omdbService.totalResults()"
+      [pageSize]="10"
+      [pageIndex]="currentPage() - 1"
+      [hidePageSize]="true"
+      (page)="onPageChange($event)">
+    </mat-paginator>
+  }
+
+  @if (!omdbService.loading() && omdbService.movies().length === 0 && !omdbService.error()) {
+    <div class="hero">
+      <h2>🎬 Découvrez des films et séries</h2>
+      <p>Recherchez parmi des milliers de titres</p>
+    </div>
+  }
+</div>

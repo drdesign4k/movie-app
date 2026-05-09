@@ -1,9 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+import { Router } from '@angular/router';
+import { MatCardModule } from '@angular/material/card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MovieSummary } from '../../../core/models/movie.model';
+import { FavoritesService } from '../../../core/services/favorites';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-movie-card',
-  imports: [],
+  standalone: true,
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
   templateUrl: './movie-card.html',
-  styles: ``,
+  styleUrl: './movie-card.css'
 })
-export class MovieCard {}
+export class MovieCard {
+  movie = input.required<MovieSummary>();
+  private router = inject(Router);
+  favoritesService = inject(FavoritesService);
+  authService = inject(AuthService);
+
+  goToDetail() {
+    this.router.navigate(['/movie', this.movie().imdbID]);
+  }
+
+  toggleFav() {
+    this.favoritesService.toggleFavorite(this.movie());
+  }
+}

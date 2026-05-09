@@ -1,1 +1,80 @@
-<p>navbar works!</p>
+<mat-toolbar class="app-toolbar" [class.scrolled]="scrolled">
+
+  <a class="brand" routerLink="/">
+    <img src="/cinemap.png" alt="CineMap Logo" class="logo"/>
+  </a>
+
+  <span class="spacer"></span>
+
+  <!-- DESKTOP -->
+  <div class="nav-links desktop-only">
+
+    <a mat-button routerLink="/" routerLinkActive="active">
+      <mat-icon>search</mat-icon>
+      Recherche
+    </a>
+
+    @if (authService.isLoggedIn()) {
+
+      <a mat-button routerLink="/favorites" class="nav-item">
+        <mat-icon
+          matBadge="{{ favoritesService.totalFavorites() }}"
+          [matBadgeHidden]="favoritesService.totalFavorites() === 0"
+          matBadgeColor="accent">
+          favorite
+        </mat-icon>
+        Favoris
+      </a>
+
+      <button mat-button class="nav-item user-btn" (click)="authService.logout()">
+        <mat-icon>logout</mat-icon>
+        <span>{{ authService.username() }}</span>
+      </button>
+
+    } @else {
+
+      <a mat-button routerLink="/login" class="nav-item">
+        <mat-icon>login</mat-icon>
+        Connexion
+      </a>
+
+    }
+
+  </div>
+
+  <!-- MOBILE -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" class="mobile-only">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu" panelClass="mobile-menu-panel">
+
+    <button mat-menu-item routerLink="/">
+      <mat-icon>search</mat-icon>
+      Recherche
+    </button>
+
+    @if (authService.isLoggedIn()) {
+
+      <button mat-menu-item routerLink="/favorites">
+        <mat-icon>favorite</mat-icon>
+        Favoris
+      </button>
+
+      <button mat-menu-item (click)="authService.logout()">
+        <mat-icon>logout</mat-icon>
+        Déconnexion ({{ authService.username() }})
+      </button>
+
+    } @else {
+
+      <button mat-menu-item routerLink="/login">
+        <mat-icon>login</mat-icon>
+        Connexion
+      </button>
+
+    }
+
+  </mat-menu>
+
+</mat-toolbar>

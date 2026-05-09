@@ -1,0 +1,310 @@
+.auth-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: linear-gradient(135deg, #0f172a, #1e293b, #312e81);
+
+  padding: 20px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+
+  padding: 36px;
+  border-radius: 24px;
+
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+
+  color: #fff;
+}
+
+/* ===== HEADER ===== */
+
+.logo-section {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.logo-circle {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.5);
+
+  mat-icon {
+    color: #fff;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+  }
+}
+
+.auth-title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.auth-subtitle {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+}
+
+/* ===== FORM ===== */
+
+.auth-form {
+  margin-top: 10px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+/* ===== MATERIAL INPUT UNIFORM ===== */
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 14px !important;
+}
+
+::ng-deep .mdc-notched-outline__leading,
+::ng-deep .mdc-notched-outline__notch,
+::ng-deep .mdc-notched-outline__trailing {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch,
+::ng-deep .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
+  border-color: #8b5cf6 !important;
+}
+
+/* TEXT INPUT */
+::ng-deep input.mat-mdc-input-element {
+  color: #fff !important;
+}
+
+/* PLACEHOLDER */
+::ng-deep input::placeholder {
+  color: rgba(255, 255, 255, 0.7) !important;
+  opacity: 1;
+}
+
+/* LABEL */
+::ng-deep .mdc-floating-label {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ICONS */
+::ng-deep .mat-icon {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ===== ERROR ===== */
+
+.error-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  margin-bottom: 14px;
+  padding: 12px;
+
+  border-radius: 12px;
+
+  background: rgba(239, 68, 68, 0.15);
+  color: #fca5a5;
+
+  font-size: 14px;
+}
+
+/* ===== BUTTON PRIMARY ===== */
+
+.auth-btn {
+  width: 100%;
+  height: 52px;
+
+  margin-top: 8px;
+
+  border-radius: 14px;
+
+  font-size: 16px;
+  font-weight: 600;
+
+  background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+
+  transition: all 0.25s ease;
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+/* spinner centré */
+.auth-btn mat-spinner {
+  margin: auto;
+}
+
+/* ===== DIVIDER ===== */
+
+.divider {
+  margin: 22px 0;
+  text-align: center;
+  position: relative;
+}
+
+.divider span {
+  padding: 0 12px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+
+  z-index: -1;
+}
+
+/* ===== GOOGLE BUTTON ===== */
+
+.google-btn {
+  width: 100%;
+  height: 48px;
+
+  border-radius: 14px !important;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff !important;
+
+  transition: 0.25s;
+}
+
+.google-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.google-btn img {
+  width: 18px;
+  height: 18px;
+}
+
+/* ===== LINK ===== */
+
+.auth-link {
+  margin-top: 22px;
+  text-align: center;
+
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.auth-link a {
+  color: #a78bfa;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+  overflow: hidden;
+
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  padding: 20px;
+}
+
+/* 🌌 BACKGROUND CINÉ */
+.film-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 🎬 ICONES */
+.film-icon {
+  position: absolute;
+  font-size: 28px;
+  opacity: 0.15;
+
+  animation: float 12s infinite ease-in-out;
+  user-select: none;
+}
+
+/* POSITIONS + VARIATIONS */
+.clapper { top: 10%; left: 15%; animation-duration: 14s; }
+.film { top: 25%; left: 70%; animation-duration: 18s; }
+.popcorn { top: 70%; left: 20%; animation-duration: 16s; }
+.ticket { top: 80%; left: 75%; animation-duration: 20s; }
+.star { top: 40%; left: 50%; animation-duration: 22s; }
+.play { top: 60%; left: 10%; animation-duration: 17s; }
+
+/* ✨ FLOAT ANIMATION */
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-25px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+/* 🧊 CARD GLASS */
+mat-card {
+  position: relative;
+  z-index: 2;
+
+  width: 100%;
+  max-width: 420px;
+
+  padding: 2rem;
+
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+
+  color: white;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
