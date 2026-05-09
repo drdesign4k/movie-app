@@ -15,8 +15,10 @@ import { ReviewsService } from '../../core/services/reviews';
 import { HistoryService } from '../../core/services/history';
 import { AuthService } from '../../core/services/auth';
 import { MovieDetail } from '../../core/models/movie.model';
+import { trigger, transition, style, animate} from '@angular/animations';
 
 @Component({
+
   selector: 'app-detail',
   standalone: true,
   imports: [
@@ -31,7 +33,24 @@ import { MovieDetail } from '../../core/models/movie.model';
     DatePipe
   ],
   templateUrl: './detail.html',
-  styleUrl: './detail.scss'
+  styleUrl: './detail.scss',
+  animations: [
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({
+          opacity: 0,
+          transform: 'translateY(30px)'
+        }),
+        animate(
+          '700ms cubic-bezier(0.22,1,0.36,1)',
+          style({
+            opacity: 1,
+            transform: 'translateY(0)'
+          })
+        )
+      ])
+    ])
+  ]
 })
 export class Detail implements OnInit {
   private route = inject(ActivatedRoute);

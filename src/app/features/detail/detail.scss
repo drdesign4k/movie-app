@@ -1,65 +1,402 @@
-.detail-container {
-  max-width: 1100px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
-.center { display: flex; justify-content: center; margin: 4rem 0; }
-.error-msg { color: red; text-align: center; font-size: 1rem; margin: 2rem 0; }
+:host {
+  display: block;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(255, 0, 150, 0.15), transparent 25%),
+    radial-gradient(circle at bottom right, rgba(0, 200, 255, 0.12), transparent 25%),
+    linear-gradient(135deg, #0f172a, #111827, #020617);
 
-/* Hero */
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* =========================================
+   GLOBAL
+========================================= */
+
+.detail-container {
+  max-width: 1300px;
+  margin: auto;
+  padding: 3rem 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5rem 0;
+}
+
+.error-msg {
+  color: #ff6b6b;
+  text-align: center;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
 .hero {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 3rem;
+  align-items: flex-start;
   flex-wrap: wrap;
+
+  padding: 2rem;
+  border-radius: 28px;
+
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,0.35),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+
+  animation: fadeUp 0.8s ease;
 }
+
+/* =========================================
+   POSTER
+========================================= */
+
 .poster {
-  width: 280px;
-  border-radius: 12px;
+  width: 320px;
+  border-radius: 24px;
   object-fit: cover;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-  flex-shrink: 0;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,0.45),
+    0 0 40px rgba(255,255,255,0.08);
+
+  transition:
+    transform .45s ease,
+    box-shadow .45s ease;
+
+  position: relative;
 }
+
+.poster:hover {
+  transform:
+    translateY(-8px)
+    scale(1.03);
+
+  box-shadow:
+    0 25px 50px rgba(0,0,0,0.6),
+    0 0 50px rgba(99,102,241,0.35);
+}
+
 .no-poster {
-  width: 280px;
-  height: 400px;
+  width: 320px;
+  height: 470px;
+  border-radius: 24px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f0f0f0;
-  border-radius: 12px;
-  font-size: 5rem;
-  flex-shrink: 0;
-}
-.info { flex: 1; min-width: 280px; }
-.info h1 { font-size: 2rem; font-weight: 700; margin-bottom: 1rem; }
-.meta { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
-.genre { color: #666; margin-bottom: 1rem; font-style: italic; }
-.plot { line-height: 1.7; margin-bottom: 1.5rem; }
-.crew p { margin: 0.4rem 0; font-size: 0.95rem; }
-.crew { margin-bottom: 1.5rem; }
 
-/* Reviews */
-.reviews-section { margin-top: 2rem; }
-.reviews-section h2 { font-size: 1.5rem; font-weight: 600; margin-bottom: 1.5rem; }
-.review-form { margin-bottom: 2rem; }
-.review-form h3 { margin-bottom: 1rem; }
-.review-form mat-form-field { margin-right: 1rem; }
-.full-width { width: 100%; }
-.no-reviews { color: #999; text-align: center; margin: 2rem 0; }
-.review-card {
-  padding: 1rem;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  margin-bottom: 1rem;
+  font-size: 6rem;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.08),
+      rgba(255,255,255,0.02)
+    );
+
+  border: 1px solid rgba(255,255,255,0.08);
 }
+
+/* =========================================
+   INFO
+========================================= */
+
+.info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.info h1 {
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+
+  margin-bottom: 1.5rem;
+
+  background: linear-gradient(to right, #fff, #cbd5e1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* META */
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.meta mat-chip {
+  background: rgba(255,255,255,0.08) !important;
+  color: #fff !important;
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(8px);
+
+  transition: all .3s ease;
+}
+
+.meta mat-chip:hover {
+  transform: translateY(-3px);
+  background: rgba(99,102,241,0.25) !important;
+}
+
+/* TEXTS */
+
+.genre {
+  color: #cbd5e1;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+.plot {
+  line-height: 1.9;
+  color: #e2e8f0;
+  font-size: 1.05rem;
+  margin-bottom: 2rem;
+}
+
+.crew {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 2rem;
+}
+
+.crew p {
+  margin: 0;
+  color: #dbe4ee;
+}
+
+.crew strong {
+  color: #fff;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+button[mat-raised-button] {
+  border-radius: 14px !important;
+  padding: 0.9rem 1.4rem !important;
+
+  font-weight: 600;
+  letter-spacing: .3px;
+
+  transition: all .35s ease !important;
+
+  box-shadow:
+    0 10px 25px rgba(99,102,241,0.25) !important;
+}
+
+button[mat-raised-button]:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* =========================================
+   REVIEWS SECTION
+========================================= */
+
+.reviews-section {
+  margin-top: 4rem;
+}
+
+.reviews-section h2 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+}
+
+/* REVIEW FORM */
+
+.review-form {
+  padding: 2rem;
+  border-radius: 24px;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.08);
+
+  backdrop-filter: blur(18px);
+
+  margin-bottom: 2rem;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+.review-form h3 {
+  margin-bottom: 1.5rem;
+}
+
+.review-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* MATERIAL FIELDS */
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: rgba(255,255,255,0.04) !important;
+  border-radius: 14px !important;
+}
+
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+.mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+.mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--outlined:not(.mdc-text-field--disabled)
+.mdc-notched-outline__trailing {
+  border-color: rgba(255,255,255,0.12) !important;
+}
+
+/* =========================================
+   REVIEW CARDS
+========================================= */
+
+.review-card {
+  padding: 1.4rem;
+  border-radius: 22px;
+
+  margin-bottom: 1.3rem;
+
+  background: rgba(255,255,255,0.05);
+
+  border: 1px solid rgba(255,255,255,0.06);
+
+  backdrop-filter: blur(16px);
+
+  transition:
+    transform .35s ease,
+    background .35s ease,
+    border .35s ease;
+
+  animation: fadeUp .5s ease;
+}
+
+.review-card:hover {
+  transform: translateY(-6px);
+
+  background: rgba(255,255,255,0.08);
+
+  border-color: rgba(99,102,241,0.35);
+}
+
 .review-header {
   display: flex;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 0.5rem;
   flex-wrap: wrap;
+
+  margin-bottom: 1rem;
 }
-.reviewer { font-weight: 600; }
-.date { color: #999; font-size: 0.85rem; margin-left: auto; }
-.review-comment { color: #444; line-height: 1.6; margin: 0; }
+
+.reviewer {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.stars {
+  color: #facc15;
+  letter-spacing: 2px;
+}
+
+.date {
+  margin-left: auto;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.review-comment {
+  color: #e2e8f0;
+  line-height: 1.8;
+}
+
+/* =========================================
+   NO REVIEWS
+========================================= */
+
+.no-reviews {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem;
+}
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+mat-divider {
+  margin: 3rem 0;
+  border-top-color: rgba(255,255,255,0.08) !important;
+}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .hero {
+    padding: 1.5rem;
+  }
+
+  .poster,
+  .no-poster {
+    width: 100%;
+    max-width: 340px;
+    margin: auto;
+  }
+
+  .info h1 {
+    text-align: center;
+  }
+
+  .meta {
+    justify-content: center;
+  }
+
+  .genre,
+  .plot {
+    text-align: center;
+  }
+}

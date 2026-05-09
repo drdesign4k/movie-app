@@ -10,7 +10,7 @@
 
   @if (movie()) {
     <!-- Hero -->
-    <div class="hero">
+    <div class="hero" @fadeIn>
       @if (movie()!.Poster !== 'N/A') {
         <img [src]="movie()!.Poster" [alt]="movie()!.Title" class="poster"/>
       } @else {

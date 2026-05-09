@@ -1,1 +1,58 @@
-<p>favorites works!</p>
+<div class="favorites-container">
+  <div class="favorites-header">
+    <h1>
+      <span class="icon">❤️</span>
+      Mes Favoris
+      @if (favoritesService.totalFavorites() > 0) {
+        <span class="count">{{ favoritesService.totalFavorites() }}</span>
+      }
+    </h1>
+    <p class="subtitle">Vos films et séries préférés en un seul endroit</p>
+  </div>
+
+  @if (favoritesService.favorites().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🎬</div>
+      <h2>Aucun favori pour l'instant</h2>
+      <p>Explorez des films et ajoutez-les à vos favoris</p>
+      <a mat-raised-button color="primary" routerLink="/">
+        <mat-icon>search</mat-icon> Découvrir des films
+      </a>
+    </div>
+  }
+
+  @if (favoritesService.favorites().length > 0) {
+    <div class="favorites-grid">
+      @for (fav of favoritesService.favorites(); track fav.imdbID) {
+        <div class="fav-card" (click)="goToDetail(fav.imdbID)">
+          <div class="fav-poster">
+            @if (fav.poster !== 'N/A') {
+              <img [src]="fav.poster" [alt]="fav.title" />
+            } @else {
+              <div class="no-poster">🎬</div>
+            }
+            <div class="fav-overlay">
+              <button mat-icon-button class="detail-btn" (click)="goToDetail(fav.imdbID)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                class="remove-btn"
+                (click)="removeFavorite(fav.imdbID, $event)"
+              >
+                <mat-icon>favorite</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="fav-info">
+            <h3>{{ fav.title }}</h3>
+            <div class="fav-meta">
+              <span class="year">{{ fav.year }}</span>
+              <span class="type">{{ fav.type }}</span>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
