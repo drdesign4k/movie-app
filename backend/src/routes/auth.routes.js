@@ -1,5 +1,6 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import User from '../models/user.model.js';
 import { protect } from '../middleware/auth.middleware.js';
 
@@ -14,13 +15,22 @@ const generateToken = (id) => {
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
+    console.log('📩 Register reçu :', { username, email });
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'Email déjà utilisé' });
     }
 
-    const user = await User.create({ username, email, password });
+    // Hash manuel
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = await User.create({
+      username,
+      email,
+      password: hashedPassword
+    });
 
     res.status(201).json({
       _id: user._id,
@@ -29,6 +39,7 @@ router.post('/register', async (req, res) => {
       token: generateToken(user._id)
     });
   } catch (err) {
+    console.error('❌ Erreur register :', err.message);
     res.status(500).json({ message: err.message });
   }
 });
