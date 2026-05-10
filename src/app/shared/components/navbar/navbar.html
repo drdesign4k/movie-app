@@ -13,22 +13,23 @@
     </a>
 
     @if (authService.isLoggedIn()) {
-      <a mat-button routerLink="/favorites" class="nav-item">
-        <mat-icon
-          matBadge="{{ favoritesService.totalFavorites() }}"
-          [matBadgeHidden]="favoritesService.totalFavorites() === 0"
-          matBadgeColor="accent"
-        >
+      <a mat-button routerLink="/favorites">
+        <mat-icon aria-hidden="false"
+                  [matBadge]="favoritesService.totalFavorites()"
+                  [matBadgeHidden]="favoritesService.totalFavorites() === 0"
+                  matBadgeColor="accent">
           favorite
         </mat-icon>
         Favoris
       </a>
-
-      <button mat-button class="nav-item user-btn" (click)="authService.logout()">
-        <mat-icon>logout</mat-icon>
-        <span>{{ authService.username() }}</span>
+      <a mat-button routerLink="/history">
+        <mat-icon>history</mat-icon>
+        Historique
+      </a>
+      <button mat-button (click)="authService.logout()">
+        <mat-icon>logout</mat-icon> {{ authService.username() }}
       </button>
-    } @else {
+    }@else {
       <a mat-button routerLink="/login" class="nav-item">
         <mat-icon>login</mat-icon>
         Connexion
@@ -47,16 +48,23 @@
     </a>
 
     @if (authService.isLoggedIn()) {
-      <button mat-menu-item routerLink="/favorites">
-        <mat-icon>favorite</mat-icon>
+      <a mat-button routerLink="/favorites">
+        <mat-icon aria-hidden="false"
+                  [matBadge]="favoritesService.totalFavorites()"
+                  [matBadgeHidden]="favoritesService.totalFavorites() === 0"
+                  matBadgeColor="accent">
+          favorite
+        </mat-icon>
         Favoris
+      </a>
+      <a mat-button routerLink="/history">
+        <mat-icon>history</mat-icon>
+        Historique
+      </a>
+      <button mat-button (click)="authService.logout()">
+        <mat-icon>logout</mat-icon> {{ authService.username() }}
       </button>
-
-      <button mat-menu-item (click)="authService.logout()">
-        <mat-icon>logout</mat-icon>
-        Déconnexion ({{ authService.username() }})
-      </button>
-    } @else {
+    }@else {
       <button mat-menu-item routerLink="/login">
         <mat-icon>login</mat-icon>
         Connexion

@@ -6,10 +6,11 @@ import { AuthService } from './auth';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryService {
-  private http = inject(HttpClient);
+  http = inject(HttpClient);
   private authService = inject(AuthService);
 
   history = signal<HistoryEntry[]>([]);
+  loading = signal(false);
 
   addToHistory(entry: { imdbID: string; title: string; poster: string }): void {
     if (!this.authService.isLoggedIn()) return;
@@ -20,9 +21,16 @@ export class HistoryService {
 
   loadHistory(): void {
     if (!this.authService.isLoggedIn()) return;
+    this.loading.set(true);
     this.http.get<HistoryEntry[]>(`${environment.apiUrl}/history`).subscribe({
-      next: (data) => this.history.set(data),
-      error: (err) => console.error('Erreur chargement historique', err)
+      next: (data) => {
+        this.history.set(data);
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Erreur chargement historique', err);
+        this.loading.set(false);
+      }
     });
   }
 

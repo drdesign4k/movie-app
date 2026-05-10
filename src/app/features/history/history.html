@@ -1,0 +1,61 @@
+<div class="history-container">
+  <div class="history-header">
+    <div class="header-left">
+      <h1>
+        <span class="icon">🕐</span>
+        Historique
+      </h1>
+      <p class="subtitle">Vos films et séries récemment consultés</p>
+    </div>
+    @if (historyService.history().length > 0) {
+      <button mat-stroked-button color="warn" (click)="clearHistory()">
+        <mat-icon>delete_sweep</mat-icon>
+        Vider l'historique
+      </button>
+    }
+  </div>
+
+  @if (historyService.loading()) {
+    <div class="loading-state">
+      <mat-spinner diameter="48" />
+      <p>Chargement...</p>
+    </div>
+  }
+
+  @if (!historyService.loading() && historyService.history().length === 0) {
+    <div class="empty-state">
+      <div class="empty-icon">🎬</div>
+      <h2>Aucun historique</h2>
+      <p>Les films que vous consultez apparaîtront ici</p>
+      <a mat-raised-button color="primary" routerLink="/search">
+        <mat-icon>search</mat-icon> Découvrir des films
+      </a>
+    </div>
+  }
+
+  @if (!historyService.loading() && historyService.history().length > 0) {
+    <div class="history-grid">
+      @for (entry of historyService.history(); track entry._id) {
+        <div class="history-card" (click)="goToDetail(entry.imdbID)">
+          <div class="card-poster">
+            @if (entry.poster !== 'N/A') {
+              <img [src]="entry.poster" [alt]="entry.title" />
+            } @else {
+              <div class="no-poster">🎬</div>
+            }
+            <div class="card-overlay">
+              <mat-icon>play_circle</mat-icon>
+            </div>
+          </div>
+          <div class="card-info">
+            <h3>{{ entry.title }}</h3>
+            <p class="viewed-at">
+              <mat-icon>schedule</mat-icon>
+              {{ entry.viewedAt | date: 'dd/MM/yyyy à HH:mm' }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+  }
+</div>
