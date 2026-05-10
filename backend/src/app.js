@@ -28,8 +28,9 @@ app.use('/api/reviews', reviewsRoutes);
 app.use('/api/history', historyRoutes);
 
 
-app.get('/', (req, res) => {
-  res.json({ message: 'CineMap API is running !' });
+// ── Health check pour Render ──────────────────────────
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok' });
 });
 
 // ── Connexion MongoDB ─────────────────────────────────
