@@ -15,7 +15,11 @@ const app = express();
 // ── Middleware ────────────────────────────────────────
 app.use(
   cors({
-    origin: ['http://localhost:4200', process.env.CLIENT_URL],
+    origin: [
+      'http://localhost:4200',
+      'https://cinemap-app.vercel.app',
+      process.env.CLIENT_URL
+    ],
     credentials: true,
   }),
 );
