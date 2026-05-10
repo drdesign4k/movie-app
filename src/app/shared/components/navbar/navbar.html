@@ -16,9 +16,9 @@
       Films
     </a>
 
-    <a routerLink="/series" routerLinkActive="active-link">
+    <!-- <a routerLink="/series" routerLinkActive="active-link">
       Séries
-    </a>
+    </a> -->
 
     <a routerLink="/history" routerLinkActive="active-link">
       Historique
@@ -30,9 +30,12 @@
 
   <!-- SEARCH BAR (desktop only) -->
   <div class="search-box desktop-only">
-    <mat-icon>search</mat-icon>
-    <input placeholder="Rechercher un film, une série..." />
-  </div>
+  <mat-icon (click)="onSearch()" style="cursor:pointer">search</mat-icon>
+  <input
+    [(ngModel)]="searchQuery"
+    (keyup.enter)="onSearch()"
+    placeholder="Rechercher un film, une série..."/>
+</div>
 
   <!-- USER AREA -->
   <div class="user-area">
@@ -93,7 +96,7 @@
 
     <button mat-menu-item routerLink="/search">Accueil</button>
     <button mat-menu-item routerLink="/movies">Films</button>
-    <button mat-menu-item routerLink="/series">Séries</button>
+    <!-- <button mat-menu-item routerLink="/series">Séries</button> -->
     <button mat-menu-item routerLink="/history">Historique</button>
 
     <button mat-menu-item routerLink="/favorites">

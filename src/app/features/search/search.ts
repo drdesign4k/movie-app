@@ -1,5 +1,6 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,6 +33,7 @@ export class Search implements OnInit {
   omdbService = inject(OmdbService);
   favoritesService = inject(FavoritesService);
   authService = inject(AuthService);
+  private route = inject(ActivatedRoute);
 
   query = '';
   selectedType = '';
@@ -42,6 +44,13 @@ export class Search implements OnInit {
     if (this.authService.isLoggedIn()) {
       this.favoritesService.loadFavorites();
     }
+    // Récupérer le paramètre q de l'URL
+    this.route.queryParams.subscribe(params => {
+      if (params['q']) {
+        this.query = params['q'];
+        this.onSearch();
+      }
+    });
   }
 
   onSearch() {
