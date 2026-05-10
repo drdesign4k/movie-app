@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatChipsModule } from '@angular/material/chips';
 import { MovieSummary } from '../../../core/models/movie.model';
 import { FavoritesService } from '../../../core/services/favorites';
 import { AuthService } from '../../../core/services/auth';
@@ -11,7 +10,7 @@ import { AuthService } from '../../../core/services/auth';
 @Component({
   selector: 'app-movie-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule],
   templateUrl: './movie-card.html',
   styleUrl: './movie-card.scss'
 })
@@ -27,5 +26,9 @@ export class MovieCard {
 
   toggleFav() {
     this.favoritesService.toggleFavorite(this.movie());
+  }
+
+  isFavorite(): boolean {
+    return this.favoritesService.isFavorite(this.movie().imdbID);
   }
 }
