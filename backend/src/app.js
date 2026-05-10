@@ -15,31 +15,22 @@ const app = express();
 // ── Middleware ────────────────────────────────────────
 app.use(
   cors({
-    origin: function (origin, callback) {
-      const allowedOrigins = [
-        'http://localhost:4200',
-        'https://cinemap-app.vercel.app',
-        process.env.CLIENT_URL,
-      ];
-      // Autoriser les requêtes sans origin (Postman, mobile) et les origins autorisées
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: [
+      'http://localhost:4200',
+      'https://cinemap-app.vercel.app',
+      process.env.CLIENT_URL
+    ],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
-
 app.use(express.json());
+
 
 app.use('/api/auth', authRoutes);
 app.use('/api/favorites', favoritesRoutes);
 app.use('/api/reviews', reviewsRoutes);
 app.use('/api/history', historyRoutes);
+
 
 // ── Health check pour Render ──────────────────────────
 app.get('/health', (req, res) => {

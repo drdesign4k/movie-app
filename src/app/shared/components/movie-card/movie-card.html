@@ -3,48 +3,37 @@
     @if (movie().Poster !== 'N/A') {
       <img [src]="movie().Poster" [alt]="movie().Title" class="poster" />
     } @else {
-      <div class="no-poster">
-        <mat-icon>movie</mat-icon>
-      </div>
+      <div class="no-poster"><mat-icon>movie</mat-icon></div>
     }
-
+    <!-- DARK GRADIENT LAYER -->
+    <div class="gradient-layer"></div>
+    <!-- TYPE BADGE -->
+    <span class="type-chip"> {{ movie().Type }} </span>
+    <!-- HOVER CONTENT -->
     <div class="overlay">
-      <button
-        mat-fab
-        color="primary"
-        class="details-btn"
-        (click)="goToDetail(); $event.stopPropagation()"
-      >
+      <button mat-fab class="play-btn" (click)="goToDetail(); $event.stopPropagation()">
         <mat-icon>play_arrow</mat-icon>
       </button>
+      <div class="quick-actions">
+        @if (authService.isLoggedIn()) {
+          <button
+            mat-icon-button
+            class="fav-btn"
+            [class.active]="favoritesService.isFavorite(movie().imdbID)"
+            (click)="toggleFav(); $event.stopPropagation()"
+          >
+            <mat-icon>
+              {{ favoritesService.isFavorite(movie().imdbID) ? 'favorite' : 'favorite_border' }}
+            </mat-icon>
+          </button>
+        }
+      </div>
     </div>
-
-    <span class="type-chip">
-      {{ movie().Type }}
-    </span>
   </div>
-
   <mat-card-content class="content">
     <h3 class="title">{{ movie().Title }}</h3>
-
     <div class="meta">
-      <span class="year">
-        <mat-icon>calendar_today</mat-icon>
-        {{ movie().Year }}
-      </span>
-
-      @if (authService.isLoggedIn()) {
-        <button
-          mat-icon-button
-          class="favorite-btn"
-          [color]="favoritesService.isFavorite(movie().imdbID) ? 'warn' : ''"
-          (click)="toggleFav(); $event.stopPropagation()"
-        >
-          <mat-icon>
-            {{ favoritesService.isFavorite(movie().imdbID) ? 'favorite' : 'favorite_border' }}
-          </mat-icon>
-        </button>
-      }
+      <span class="year"> <mat-icon>calendar_today</mat-icon> {{ movie().Year }} </span>
     </div>
   </mat-card-content>
 </mat-card>
