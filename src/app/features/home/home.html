@@ -1,0 +1,130 @@
+<div class="home-page">
+
+  <!-- ── Hero Section ── -->
+  <section class="hero-section">
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <mat-icon>auto_awesome</mat-icon>
+        Bienvenue sur CineMap
+      </div>
+
+      <h1 class="hero-title">
+        Votre univers
+        <span class="gradient-text">cinématographique</span>
+        commence ici
+      </h1>
+
+      <p class="hero-subtitle">
+        Explorez des milliers de films et séries, sauvegardez vos favoris,
+        partagez vos avis et bien plus encore.
+      </p>
+
+      <!-- Search bar -->
+      <div class="hero-search">
+        <mat-icon class="s-icon">search</mat-icon>
+        <input
+          class="s-input"
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+          placeholder="Rechercher un film, une série..."/>
+        <button class="s-btn" (click)="onSearch()">
+          <mat-icon>arrow_forward</mat-icon>
+          Explorer
+        </button>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-item">
+            <span class="stat-value">{{ stat.value }}</span>
+            <span class="stat-label">{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Hero image déco -->
+    <div class="hero-visual">
+      <div class="visual-card card-1">🎬</div>
+      <div class="visual-card card-2">⭐</div>
+      <div class="visual-card card-3">🍿</div>
+      <div class="visual-ring"></div>
+    </div>
+  </section>
+
+  <!-- ── Catégories ── -->
+  <section class="categories-section">
+    <div class="section-header">
+      <h2>Explorer par genre</h2>
+      <p>Trouvez exactement ce que vous cherchez</p>
+    </div>
+    <div class="categories-grid">
+      @for (cat of categories; track cat.query) {
+        <div class="category-card" (click)="goToSearch(cat.query)">
+          <span class="cat-icon">{{ cat.icon }}</span>
+          <span class="cat-label">{{ cat.label }}</span>
+          <mat-icon class="cat-arrow">arrow_forward</mat-icon>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- ── Tendances ── -->
+  <section class="trending-section">
+    <div class="section-header">
+      <h2>🔥 Tendances</h2>
+      <button mat-button color="primary" (click)="goToSearch('marvel')">
+        Voir tout <mat-icon>arrow_forward</mat-icon>
+      </button>
+    </div>
+
+    @if (loadingTrending()) {
+      <div class="loading-row">
+        <mat-spinner diameter="40"/>
+      </div>
+    } @else {
+      <div class="trending-grid">
+        @for (movie of trendingMovies(); track movie.imdbID) {
+          <div class="trending-card" (click)="goToDetail(movie.imdbID)">
+            @if (movie.Poster !== 'N/A') {
+              <img [src]="movie.Poster" [alt]="movie.Title"/>
+            } @else {
+              <div class="no-poster">🎬</div>
+            }
+            <div class="trending-overlay">
+              <h4>{{ movie.Title }}</h4>
+              <span>{{ movie.Year }}</span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- ── CTA Section ── -->
+  @if (!authService.isLoggedIn()) {
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Rejoignez CineMap dès aujourd'hui</h2>
+        <p>Créez un compte gratuit pour sauvegarder vos favoris et laisser des avis</p>
+        <div class="cta-buttons">
+          <a mat-raised-button routerLink="/register" class="cta-primary">
+            <mat-icon>person_add</mat-icon>
+            Créer un compte
+          </a>
+          <a mat-stroked-button routerLink="/login" class="cta-secondary">
+            Se connecter
+          </a>
+        </div>
+      </div>
+    </section>
+  }
+
+</div>

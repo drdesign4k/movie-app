@@ -65,4 +65,8 @@ export class Search implements OnInit {
     };
     this.omdbService.searchMovies(filters);
   }
+  setType(type: string) {
+    this.selectedType = type;
+    if (this.query.trim()) this.search();
+  }
 }

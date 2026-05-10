@@ -1,62 +1,103 @@
-<div class="search-container">
-  <div class="search-bar">
-    <mat-form-field appearance="outline" class="search-input">
-      <mat-label>Rechercher un film, série...</mat-label>
-      <input matInput [(ngModel)]="query" (keyup.enter)="onSearch()" placeholder="Ex: Inception"/>
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+<div class="search-page">
 
-    <div class="filters">
-      <mat-form-field appearance="outline" class="filter-select">
-        <mat-label>Type</mat-label>
-        <mat-select [(ngModel)]="selectedType">
-          <mat-option value="">Tous</mat-option>
-          <mat-option value="movie">Films</mat-option>
-          <mat-option value="series">Séries</mat-option>
-          <mat-option value="episode">Épisodes</mat-option>
-        </mat-select>
-      </mat-form-field>
+  <!-- Hero Banner -->
+  <div class="search-hero">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="highlight">Découvrez</span> vos films & séries
+      </h1>
+      <p class="hero-subtitle">Explorez des milliers de titres en quelques secondes</p>
 
-      <mat-form-field appearance="outline" class="filter-select">
-        <mat-label>Année</mat-label>
-        <input matInput [(ngModel)]="selectedYear" placeholder="Ex: 2023" maxlength="4"/>
-      </mat-form-field>
+      <!-- Barre de recherche principale -->
+      <div class="search-wrapper">
+        <div class="search-main">
+          <mat-icon class="search-icon">movie</mat-icon>
+          <input
+            class="search-input-custom"
+            [(ngModel)]="query"
+            (keyup.enter)="onSearch()"
+            placeholder="Titre, acteur, réalisateur..."/>
+          <button class="search-btn" (click)="onSearch()">
+            <mat-icon>search</mat-icon>
+            Rechercher
+          </button>
+        </div>
+
+        <!-- Filtres inline -->
+        <div class="filters-row">
+          <div class="filter-chip" [class.active]="selectedType === ''" (click)="setType('')">Tous</div>
+          <div class="filter-chip" [class.active]="selectedType === 'movie'" (click)="setType('movie')">
+            🎬 Films
+          </div>
+          <div class="filter-chip" [class.active]="selectedType === 'series'" (click)="setType('series')">
+            📺 Séries
+          </div>
+          <div class="filter-chip" [class.active]="selectedType === 'episode'" (click)="setType('episode')">
+            🎞️ Épisodes
+          </div>
+
+          <div class="year-input-wrapper">
+            <mat-icon>calendar_today</mat-icon>
+            <input
+              class="year-input"
+              [(ngModel)]="selectedYear"
+              placeholder="Année"
+              maxlength="4"
+              (keyup.enter)="onSearch()"/>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <button mat-raised-button color="primary" (click)="onSearch()">
-      <mat-icon>search</mat-icon> Rechercher
-    </button>
+    <!-- Décoration background -->
+    <div class="hero-bg">
+      <div class="blob blob-1"></div>
+      <div class="blob blob-2"></div>
+      <div class="blob blob-3"></div>
+    </div>
   </div>
 
-  @if (omdbService.loading()) {
-    <div class="center">
-      <mat-spinner diameter="48"/>
-    </div>
-  }
+  <!-- Résultats -->
+  <div class="results-container">
 
-  @if (omdbService.error()) {
-    <p class="error-msg">{{ omdbService.error() }}</p>
-  }
+    @if (omdbService.loading()) {
+      <div class="loading-state">
+        <mat-spinner diameter="56"/>
+        <p>Recherche en cours...</p>
+      </div>
+    }
 
-  @if (omdbService.movies().length > 0) {
-    <div class="movies-grid">
-      @for (movie of omdbService.movies(); track movie.imdbID) {
-        <app-movie-card [movie]="movie"/>
-      }
-    </div>
-    <mat-paginator
-      [length]="omdbService.totalResults()"
-      [pageSize]="10"
-      [pageIndex]="currentPage() - 1"
-      [hidePageSize]="true"
-      (page)="onPageChange($event)">
-    </mat-paginator>
-  }
+    @if (omdbService.error()) {
+      <div class="error-state">
+        <span class="error-icon">🔍</span>
+        <p>{{ omdbService.error() }}</p>
+      </div>
+    }
 
-  @if (!omdbService.loading() && omdbService.movies().length === 0 && !omdbService.error()) {
-    <div class="hero">
-      <h2>🎬 Découvrez des films et séries</h2>
-      <p>Recherchez parmi des milliers de titres</p>
-    </div>
-  }
+    @if (omdbService.movies().length > 0) {
+      <div class="results-header">
+        <h3>{{ omdbService.totalResults() }} résultats trouvés</h3>
+      </div>
+      <div class="movies-grid">
+        @for (movie of omdbService.movies(); track movie.imdbID) {
+          <app-movie-card [movie]="movie"/>
+        }
+      </div>
+      <mat-paginator
+        [length]="omdbService.totalResults()"
+        [pageSize]="10"
+        [pageIndex]="currentPage() - 1"
+        [hidePageSize]="true"
+        (page)="onPageChange($event)">
+      </mat-paginator>
+    }
+
+    @if (!omdbService.loading() && omdbService.movies().length === 0 && !omdbService.error()) {
+      <div class="empty-state">
+        <div class="empty-icon">🎬</div>
+        <h3>Prêt à explorer ?</h3>
+        <p>Tapez un titre dans la barre de recherche ci-dessus</p>
+      </div>
+    }
+  </div>
 </div>

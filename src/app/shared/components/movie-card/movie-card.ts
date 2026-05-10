@@ -13,7 +13,7 @@ import { AuthService } from '../../../core/services/auth';
   standalone: true,
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
   templateUrl: './movie-card.html',
-  styleUrl: './movie-card.css'
+  styleUrl: './movie-card.scss'
 })
 export class MovieCard {
   movie = input.required<MovieSummary>();
