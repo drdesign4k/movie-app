@@ -1,118 +1,253 @@
-<div class="detail-container">
+<div class="movie-detail-container">
 
   @if (loading()) {
-    <div class="center"><mat-spinner diameter="64"/></div>
+    <div class="loading-container">
+      <mat-spinner diameter="64"/>
+      <p>Chargement du film...</p>
+    </div>
   }
 
   @if (error()) {
-    <p class="error-msg">{{ error() }}</p>
+    <div class="error-container">
+      <mat-icon>error_outline</mat-icon>
+      <p class="error-msg">{{ error() }}</p>
+      <button mat-raised-button (click)="reload()">Réessayer</button>
+    </div>
   }
 
   @if (movie()) {
-    <!-- Hero -->
-    <div class="hero" @fadeIn>
+    <!-- BACKGROUND BACKDROP -->
+    <div class="backdrop-container">
       @if (movie()!.Poster !== 'N/A') {
-        <img [src]="movie()!.Poster" [alt]="movie()!.Title" class="poster"/>
-      } @else {
-        <div class="no-poster">🎬</div>
+        <div class="backdrop-image" [style.backgroundImage]="'url(' + movie()!.Poster + ')'"></div>
       }
+      <div class="backdrop-overlay"></div>
+    </div>
 
-      <div class="info">
-        <h1>{{ movie()!.Title }}</h1>
-        <div class="meta">
-          <mat-chip>{{ movie()!.Year }}</mat-chip>
-          <mat-chip>{{ movie()!.Rated }}</mat-chip>
-          <mat-chip>{{ movie()!.Runtime }}</mat-chip>
-          <mat-chip>⭐ {{ movie()!.imdbRating }}/10</mat-chip>
+    <!-- CONTENU PRINCIPAL -->
+    <div class="main-content">
+      <div class="content-wrapper">
+
+        <!-- COLONNE GAUCHE - POSTER -->
+        <div class="poster-column">
+          <div class="poster-wrapper">
+            @if (movie()!.Poster !== 'N/A') {
+              <img [src]="movie()!.Poster" [alt]="movie()!.Title" class="main-poster"/>
+            } @else {
+              <div class="no-poster">
+                <mat-icon>local_movies</mat-icon>
+                <span>Aucune affiche</span>
+              </div>
+            }
+
+            <!-- BOUTONS RAPIDES -->
+            <div class="quick-actions-poster">
+              <button mat-fab class="fab-play" (click)="playTrailer()">
+                <mat-icon>play_arrow</mat-icon>
+              </button>
+
+              @if (authService.isLoggedIn()) {
+                <button mat-fab class="fab-fav"
+                        [class.active]="favoritesService.isFavorite(movie()!.imdbID)"
+                        (click)="toggleFavorite()">
+                  <mat-icon>{{ favoritesService.isFavorite(movie()!.imdbID) ? 'favorite' : 'favorite_border' }}</mat-icon>
+                </button>
+              }
+            </div>
+          </div>
         </div>
 
-        <p class="genre">{{ movie()!.Genre }}</p>
-        <p class="plot">{{ movie()!.Plot }}</p>
+        <!-- COLONNE DROITE - INFORMATIONS -->
+        <div class="info-column">
+          <div class="movie-header">
+            <h1 class="movie-title">{{ movie()!.Title }}</h1>
 
-        <div class="crew">
-          <p><strong>Réalisateur :</strong> {{ movie()!.Director }}</p>
-          <p><strong>Acteurs :</strong> {{ movie()!.Actors }}</p>
-          <p><strong>Pays :</strong> {{ movie()!.Country }}</p>
-          <p><strong>Langue :</strong> {{ movie()!.Language }}</p>
-          @if (movie()!.BoxOffice && movie()!.BoxOffice !== 'N/A') {
-            <p><strong>Box Office :</strong> {{ movie()!.BoxOffice }}</p>
-          }
-          @if (movie()!.Awards && movie()!.Awards !== 'N/A') {
-            <p><strong>Récompenses :</strong> {{ movie()!.Awards }}</p>
-          }
+            <div class="movie-meta">
+              <span class="meta-chip">
+                <mat-icon>event</mat-icon>
+                {{ movie()!.Year }}
+              </span>
+              <span class="meta-chip">
+                <mat-icon>movie</mat-icon>
+                {{ movie()!.Rated || 'Non classé' }}
+              </span>
+              <span class="meta-chip">
+                <mat-icon>schedule</mat-icon>
+                {{ movie()!.Runtime || 'N/A' }}
+              </span>
+              <span class="meta-chip rating">
+                <mat-icon>star</mat-icon>
+                {{ movie()!.imdbRating || 'N/A' }}/10
+              </span>
+            </div>
+
+            <div class="genre-tags">
+              @for (genre of movie()!.Genre.split(', ') || []; track genre) {
+                <span class="genre-tag">{{ genre }}</span>
+              }
+            </div>
+          </div>
+
+          <div class="movie-plot">
+            <h3>Synopsis</h3>
+            <p>{{ movie()!.Plot || 'Synopsis non disponible' }}</p>
+          </div>
+
+          <div class="movie-details-grid">
+            <div class="detail-item">
+              <mat-icon>person_outline</mat-icon>
+              <div>
+                <label>Réalisateur</label>
+                <span>{{ movie()!.Director || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <mat-icon>groups</mat-icon>
+              <div>
+                <label>Acteurs</label>
+                <span>{{ movie()!.Actors || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <mat-icon>public</mat-icon>
+              <div>
+                <label>Pays</label>
+                <span>{{ movie()!.Country || 'N/A' }}</span>
+              </div>
+            </div>
+
+            <div class="detail-item">
+              <mat-icon>translate</mat-icon>
+              <div>
+                <label>Langue</label>
+                <span>{{ movie()!.Language || 'N/A' }}</span>
+              </div>
+            </div>
+
+            @if (movie()!.BoxOffice && movie()!.BoxOffice !== 'N/A') {
+              <div class="detail-item">
+                <mat-icon>attach_money</mat-icon>
+                <div>
+                  <label>Box Office</label>
+                  <span>{{ movie()!.BoxOffice }}</span>
+                </div>
+              </div>
+            }
+
+            @if (movie()!.Awards && movie()!.Awards !== 'N/A') {
+              <div class="detail-item">
+                <mat-icon>emoji_events</mat-icon>
+                <div>
+                  <label>Récompenses</label>
+                  <span>{{ movie()!.Awards }}</span>
+                </div>
+              </div>
+            }
+          </div>
         </div>
-
-        @if (authService.isLoggedIn()) {
-          <button mat-raised-button
-                  [color]="favoritesService.isFavorite(movie()!.imdbID) ? 'warn' : 'primary'"
-                  (click)="toggleFavorite()">
-            <mat-icon>{{ favoritesService.isFavorite(movie()!.imdbID) ? 'favorite' : 'favorite_border' }}</mat-icon>
-            {{ favoritesService.isFavorite(movie()!.imdbID) ? 'Retirer des favoris' : 'Ajouter aux favoris' }}
-          </button>
-        }
       </div>
     </div>
 
-    <mat-divider/>
-
-    <!-- Section avis -->
-    <div class="reviews-section">
-      <h2>Avis des utilisateurs</h2>
+    <!-- SECTION AVIS -->
+    <div class="reviews-container">
+      <div class="reviews-header">
+        <h2>
+          <mat-icon>rate_review</mat-icon>
+          Avis des spectateurs
+        </h2>
+        <div class="reviews-stats">
+          <span class="avg-rating">{{ getAverageRating() }}</span>
+          <span class="total-reviews">{{ reviewsService.reviews().length }} avis</span>
+        </div>
+      </div>
 
       @if (authService.isLoggedIn()) {
-        <div class="review-form">
-          <h3>Laisser un avis</h3>
+        <div class="review-form-container">
+          <h3>Donnez votre avis</h3>
           <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
-            <mat-form-field appearance="outline">
-              <mat-label>Note (1 à 5)</mat-label>
-              <mat-select formControlName="rating">
-                <mat-option [value]="1">⭐ 1</mat-option>
-                <mat-option [value]="2">⭐⭐ 2</mat-option>
-                <mat-option [value]="3">⭐⭐⭐ 3</mat-option>
-                <mat-option [value]="4">⭐⭐⭐⭐ 4</mat-option>
-                <mat-option [value]="5">⭐⭐⭐⭐⭐ 5</mat-option>
-              </mat-select>
-            </mat-form-field>
+            <div class="rating-input">
+              <label>Votre note :</label>
+              <div class="stars-selector">
+                @for (star of [1,2,3,4,5]; track star) {
+                  <mat-icon
+                    class="star-select"
+                    [class.active]="star <= reviewForm.get('rating')?.value"
+                    (click)="reviewForm.patchValue({ rating: star })">
+                    {{ star <= reviewForm.get('rating')?.value ? 'star' : 'star_border' }}
+                  </mat-icon>
+                }
+              </div>
+            </div>
 
-            <mat-form-field appearance="outline" class="full-width">
-              <mat-label>Commentaire (optionnel)</mat-label>
-              <textarea matInput formControlName="comment" rows="3" maxlength="500"></textarea>
+            <mat-form-field appearance="outline" class="comment-field">
+              <mat-label>Votre commentaire (optionnel)</mat-label>
+              <textarea matInput formControlName="comment" rows="3" maxlength="500" placeholder="Partagez votre opinion..."></textarea>
+              <mat-hint align="end">{{ reviewForm.get('comment')?.value?.length || 0 }}/500</mat-hint>
             </mat-form-field>
 
             <button mat-raised-button color="primary" type="submit" [disabled]="reviewForm.invalid || submittingReview()">
-              <mat-icon>send</mat-icon> Publier
+              <mat-icon>send</mat-icon>
+              Publier mon avis
             </button>
           </form>
         </div>
-        <mat-divider/>
+      } @else {
+        <div class="login-prompt">
+          <mat-icon>lock_outline</mat-icon>
+          <p>Connectez-vous pour laisser un avis</p>
+          <button mat-stroked-button (click)="goToLogin()">Se connecter</button>
+        </div>
       }
 
-      <!-- Liste des avis -->
       @if (reviewsService.loading()) {
-        <div class="center"><mat-spinner diameter="32"/></div>
+        <div class="loading-reviews">
+          <mat-spinner diameter="32"/>
+          <p>Chargement des avis...</p>
+        </div>
       }
 
       @if (reviewsService.reviews().length === 0 && !reviewsService.loading()) {
-        <p class="no-reviews">Aucun avis pour ce film. Soyez le premier !</p>
-      }
-
-      @for (review of reviewsService.reviews(); track review._id) {
-        <div class="review-card">
-          <div class="review-header">
-            <span class="reviewer">{{ review.user.username }}</span>
-            <span class="stars">{{ stars(review.rating) }}</span>
-            <span class="date">{{ review.createdAt | date:'dd/MM/yyyy' }}</span>
-            @if (authService.currentUser()?._id === review.user._id) {
-              <button mat-icon-button color="warn" (click)="deleteReview(review._id!)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            }
-          </div>
-          @if (review.comment) {
-            <p class="review-comment">{{ review.comment }}</p>
-          }
+        <div class="no-reviews">
+          <mat-icon>chat_bubble_outline</mat-icon>
+          <p>Aucun avis pour ce film</p>
+          <span>Soyez le premier à donner votre avis !</span>
         </div>
       }
+
+      <div class="reviews-list">
+        @for (review of reviewsService.reviews(); track review._id) {
+          <div class="review-card">
+            <div class="review-avatar">
+              <mat-icon>person</mat-icon>
+            </div>
+            <div class="review-content">
+              <div class="review-info">
+                <span class="reviewer-name">{{ review.user.username }}</span>
+                <div class="review-stars">
+                  @for (star of [1,2,3,4,5]; track star) {
+                    <mat-icon [class.active]="star <= review.rating">
+                      {{ star <= review.rating ? 'star' : 'star_border' }}
+                    </mat-icon>
+                  }
+                </div>
+                <span class="review-date">{{ review.createdAt | date:'dd MMM yyyy' }}</span>
+              </div>
+
+              @if (review.comment) {
+                <p class="review-comment">{{ review.comment }}</p>
+              }
+
+              @if (authService.currentUser()?._id === review.user._id) {
+                <button mat-icon-button color="warn" class="delete-review" (click)="deleteReview(review._id!)">
+                  <mat-icon>delete_outline</mat-icon>
+                </button>
+              }
+            </div>
+          </div>
+        }
+      </div>
     </div>
   }
 </div>
