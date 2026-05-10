@@ -59,19 +59,20 @@
 
       <mat-menu #userMenu="matMenu" panelClass="user-menu">
 
-        <div class="user-info">
+        <div mat-menu-item class="user-info">
           <strong>{{ authService.username() }}</strong>
         </div>
 
-        <button mat-menu-item routerLink="/profile">
+        <!-- <button mat-menu-item routerLink="/profile">
           Profil
-        </button>
+        </button> -->
 
-        <button mat-menu-item routerLink="/settings">
+        <!-- <button mat-menu-item routerLink="/settings">
           Paramètres
-        </button>
+        </button> -->
 
         <button mat-menu-item (click)="authService.logout()">
+          <mat-icon>logout</mat-icon>
           Déconnexion
         </button>
 
@@ -94,8 +95,8 @@
 
   <mat-menu #mobileMenu="matMenu" panelClass="mobile-menu">
 
-    <button mat-menu-item routerLink="/search">Accueil</button>
-    <button mat-menu-item routerLink="/movies">Films</button>
+    <button mat-menu-item routerLink="/">Accueil</button>
+    <button mat-menu-item routerLink="/search">Films</button>
     <!-- <button mat-menu-item routerLink="/series">Séries</button> -->
     <button mat-menu-item routerLink="/history">Historique</button>
 
